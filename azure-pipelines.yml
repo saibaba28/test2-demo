@@ -33,6 +33,7 @@ stages:
         targetType: 'inline'
         script: | 
           if(eq(variables.var, 'True'))
+          echo $(variables.var)
 - stage: RELEASE_B
   jobs:
   - job: test_02
