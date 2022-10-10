@@ -21,6 +21,7 @@ stages:
     steps:
       - bash: echo "Stage build"
 - stage: RELEASE_C
+dependsOn: BUILD_STAGE
   variables:
    - name: var
 #     ${{ if eq(Succeeded('BUILD_STAGE'), 'True') }}:
