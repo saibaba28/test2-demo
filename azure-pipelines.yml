@@ -32,7 +32,7 @@ stages:
        inputs:
         targetType: 'inline'
         script: | 
-         if [ "$(var)" = "True"]; then
+         if [ "$(var)" = "True" ]; then
           echo $(var)
           fi 
           echo "hello"
