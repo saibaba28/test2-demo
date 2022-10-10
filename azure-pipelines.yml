@@ -23,7 +23,8 @@ stages:
 
 - stage: RELEASE_A
   variables:
-   stageVariable: "True"
+   - name: var
+     value: True
   jobs:
   - job: test_01
     steps:
@@ -31,7 +32,10 @@ stages:
        inputs:
         targetType: 'inline'
         script: | 
-         echo "stageVariable :" $(stageVariable)
+      - ${{ if eq(variables.var, 'True') }}:
+     - script: echo ${{variables.var}}
+           - ${{ elseif eq(variables.var, 'False') }}:
+     - script: echo 'false'
 
 - stage: RELEASE_B
   jobs:
