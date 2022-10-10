@@ -29,8 +29,7 @@ stages:
        inputs:
         targetType: 'inline'
         script: |
-          condition: in('dependencies.BUILD_STAGE.result', 'Succeeded')
-          echo "Stage build"
+          echo $succeeded('BUILD_STAGE')
 - stage: RELEASE_B
   jobs:
   - job: test_02
