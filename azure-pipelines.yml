@@ -32,7 +32,7 @@ stages:
        inputs:
         targetType: 'inline'
         script: | 
-          if(eq($(var), True))
+         if($(var) == 'True')
           echo $(var)
 - stage: RELEASE_B
   jobs:
