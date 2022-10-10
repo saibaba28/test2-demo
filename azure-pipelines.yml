@@ -23,7 +23,7 @@ stages:
 - stage: RELEASE_C
   dependsOn: BUILD_STAGE
   variables:
-    ${{ if eq(variables[stageDependencies.BUILD_STAGE.result], 'Succeeded' }}:
+    ${{ if eq(variables[stageDependencies.BUILD_STAGE.result], 'Succeeded') }}:
       var : True
        echo $(var) 
   jobs:
