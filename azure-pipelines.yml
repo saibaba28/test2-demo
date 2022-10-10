@@ -24,7 +24,7 @@ stages:
   variables:
    - name: var
 #     ${{ if eq(Succeeded('BUILD_STAGE'), 'True') }}:
-     value: eq(Succeeded('BUILD_STAGE'), 'True')
+     value: Succeeded('BUILD_STAGE')
       echo $(var)
   jobs:
   - job: test_0C
