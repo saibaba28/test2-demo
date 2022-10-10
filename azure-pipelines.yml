@@ -20,13 +20,23 @@ stages:
   - job: demo
     steps:
       - bash: echo "Stage build"
-
 - stage: RELEASE_A
+  jobs:
+  - job: test_0A
+    steps:
+     - bash: echo "Stage A"  
+- stage: RELEASE_B
+  jobs:
+  - job: test_0B
+    steps:
+     - bash: echo "Stage B"  
+- stage: RELEASE_C
   variables:
    - name: var
-     value: False
+        ${{ if in(Succeeded(BUILD_STAGE), 'True' ) }}: 
+     value: True     
   jobs:
-  - job: test_01
+  - job: test_0C
     steps:
      - task: Bash@3
        inputs:
@@ -37,11 +47,11 @@ stages:
           exit 1
           fi 
           echo "no exit :)"
-- stage: RELEASE_B
+- stage: RELEASE_D
   jobs:
-  - job: test_02
+  - job: test_0D
     steps:
-     - bash: echo "Stage C"   
+     - bash: echo "Stage D"  
     
 
 
