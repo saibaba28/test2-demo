@@ -20,20 +20,10 @@ stages:
   - job: demo
     steps:
       - bash: echo "Stage build"
-- stage: RELEASE_A
-  jobs:
-  - job: test_0A
-    steps:
-     - bash: echo "Stage A"  
-- stage: RELEASE_B
-  jobs:
-  - job: test_0B
-    steps:
-     - bash: echo "Stage B"  
 - stage: RELEASE_C
   variables:
    - name: var
-     value: $[eq('Succeeded(RELEASE_B)', 'True')]
+     value: $[eq(succeeded('BUILD_STAGE'), 'True')]
   jobs:
   - job: test_0C
     steps:
@@ -46,6 +36,7 @@ stages:
           exit 1
           fi 
           echo "no exit :)"
+          echo $
 - stage: RELEASE_D
   jobs:
   - job: test_0D
