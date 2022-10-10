@@ -33,8 +33,7 @@ stages:
 - stage: RELEASE_C
   variables:
    - name: var
-        ${{ if in(Succeeded(BUILD_STAGE), 'True' ) }}: 
-     value: True     
+     value: $[eq('Succeeded(RELEASE_B)', 'True')]
   jobs:
   - job: test_0C
     steps:
