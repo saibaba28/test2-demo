@@ -22,18 +22,22 @@ stages:
       - bash: echo "Stage build"
 
 - stage: RELEASE_A
-  condition: in(succeeded('BUILD_STAGE'), false)
+  variables:
+   stageVariable: "True"
   jobs:
   - job: test_01
     steps:
      - task: Bash@3
        inputs:
         targetType: 'inline'
-        script: |
-          echo BUILD_STAGE2
+        script: | 
+         echo "stageVariable :" $(stageVariable)
+
 - stage: RELEASE_B
   jobs:
   - job: test_02
     steps:
-     - bash: echo "Stage C"
+     - bash: echo "Stage C"   
+    
+
 
