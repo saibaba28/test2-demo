@@ -27,16 +27,16 @@ stages:
      value: True
   jobs:
   - job: test_01
-    steps:
-     - task: Bash@3
-       inputs:
-        targetType: 'inline'
-        script: | 
-        - ${{ if eq(variables.var, 'True') }}:
-     - script: echo ${{variables.var}}
-       ${{ elseif eq(variables.var, 'False') }}:
-     - script: echo 'false'
-
+    steps: 
+      - task: Bash@3
+        inputs:
+          targetType: 'inline'
+          script: |
+                        - script: echo "start"
+                        - ${{ if eq(variables.var, 'True') }}:
+                        - script: echo "this is adaptum"
+                        - ${{ elseif eq(variables.var, 'False') }}: 
+                        - script: echo "this is contoso" 
 - stage: RELEASE_B
   jobs:
   - job: test_02
