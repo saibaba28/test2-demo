@@ -32,7 +32,7 @@ stages:
        inputs:
         targetType: 'inline'
         script: | 
-       ${{ if eq(variables.var, 'True') }}:
+        - ${{ if eq(variables.var, 'True') }}:
      - script: echo ${{variables.var}}
        ${{ elseif eq(variables.var, 'False') }}:
      - script: echo 'false'
