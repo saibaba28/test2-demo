@@ -33,10 +33,6 @@ stages:
           targetType: 'inline'
           script: |
                         - script: echo "start"
-                        - ${{ if eq(variables.var, 'True') }}:
-                        - script: echo "this is adaptum"
-                        - ${{ elseif eq(variables.var, 'False') }}: 
-                        - script: echo "this is contoso" 
 - stage: RELEASE_B
   jobs:
   - job: test_02
