@@ -34,8 +34,8 @@ stages:
         script: | 
          if [ "$(var)" = "True" ]; then
           echo $(var)
+          exit 1
           fi 
-          echo "hello"
 - stage: RELEASE_B
   jobs:
   - job: test_02
