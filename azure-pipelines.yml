@@ -27,10 +27,9 @@ stages:
      value: True
   jobs:
   - job: test_01
-    steps: 
-                        - script: echo "start"
-                        - ${{ if eq(variables['var'], 'True') }}:
-                        - script: echo "this is adaptum"
+    steps:
+    - ${{ if ne(variables['var'], 'False') }}:
+    - script: echo running
 - stage: RELEASE_B
   jobs:
   - job: test_02
