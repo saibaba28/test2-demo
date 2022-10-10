@@ -29,8 +29,8 @@ stages:
        inputs:
         targetType: 'inline'
         script: |
-          
-
+          condition: in('dependencies.BUILD_STAGE.result', 'Succeeded')
+          echo "Stage build"
 - stage: RELEASE-B
   jobs:
   - job: test_02
