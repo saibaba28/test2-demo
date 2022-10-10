@@ -24,7 +24,7 @@ stages:
 - stage: RELEASE_A
   variables:
    - name: var
-     value: True
+     value: False
   jobs:
   - job: test_01
     steps:
@@ -36,6 +36,7 @@ stages:
           echo $(var)
           exit 1
           fi 
+          echo "no exit :)"
 - stage: RELEASE_B
   jobs:
   - job: test_02
