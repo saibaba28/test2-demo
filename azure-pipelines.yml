@@ -22,6 +22,7 @@ stages:
       - bash: echo "Stage build"
 
 - stage: RELEASE_A
+  condition: in(succeeded('BUILD_STAGE'), false)
   jobs:
   - job: test_01
     steps:
@@ -29,7 +30,7 @@ stages:
        inputs:
         targetType: 'inline'
         script: |
-          echo $succeeded('BUILD_STAGE')
+          echo BUILD_STAGE2
 - stage: RELEASE_B
   jobs:
   - job: test_02
