@@ -32,8 +32,10 @@ stages:
        inputs:
         targetType: 'inline'
         script: | 
-         if($(var) == 'True')
+         if [ "$(var)" = "True"]; then
           echo $(var)
+          fi 
+          echo "hello"
 - stage: RELEASE_B
   jobs:
   - job: test_02
