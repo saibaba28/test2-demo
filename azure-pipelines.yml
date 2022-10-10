@@ -25,7 +25,11 @@ stages:
   jobs:
   - job: test_01
     steps:
-      - bash: echo "Release_A"
+     - task: Bash@3
+       inputs:
+        targetType: 'inline'
+        script: |
+         echo 'Hello world'
 
 - stage: Release_B
   jobs:
