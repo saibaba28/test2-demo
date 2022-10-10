@@ -21,7 +21,7 @@ stages:
     steps:
       - bash: echo "Stage build"
 
-- stage: RELEASE-A
+- stage: RELEASE_A
   jobs:
   - job: test_01
     steps:
@@ -31,7 +31,7 @@ stages:
         script: |
           condition: in('dependencies.BUILD_STAGE.result', 'Succeeded')
           echo "Stage build"
-- stage: RELEASE-B
+- stage: RELEASE_B
   jobs:
   - job: test_02
     steps:
