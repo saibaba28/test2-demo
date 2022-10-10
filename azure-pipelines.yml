@@ -19,13 +19,13 @@ stages:
   jobs:
   - job: demo
     steps:
-      - bash: echo "Stage A"
+      - bash: echo "Stage build"
 
 - stage: Release_A
   jobs:
   - job: test_01
     steps:
-      - bash: echo "Stage B"
+      - bash: echo "Release_A"
 
 - stage: Release_B
   jobs:
