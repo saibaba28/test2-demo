@@ -24,7 +24,7 @@ stages:
   dependsOn: BUILD_STAGE
   variables:
   - name: var
-    value: notin(stageDependencies.BUILD_STAGE.demo.result, 'Succeeded')
+    value: $[notin(stageDependencies.BUILD_STAGE.demo.result, 'Succeeded')]
   jobs:
   - job: test_0C
 #    condition: in(stageDependencies.BUILD_STAGE.demo.result, 'Succeeded')
