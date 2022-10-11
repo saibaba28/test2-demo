@@ -42,6 +42,9 @@ stages:
           fi 
           echo $(var)
           echo "no exit :)"
+  - job: test_02
+    steps:
+     - bash: echo "Stage BD"  
 - stage: RELEASE_D
   jobs:
   - job: test_0D
