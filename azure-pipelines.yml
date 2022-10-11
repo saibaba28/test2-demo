@@ -41,7 +41,7 @@ stages:
   dependsOn: DEV_DEPLOYMENT
   variables:
   - name: var
-    value: $[or ( 
+    value: $[and ( 
         notin(stageDependencies.QA1_DEPLOYMENT.Qa1_Deploy.result, 'Succeeded'),
         notin(stageDependencies.QA2_DEPLOYMENT.Qa2_Deploy.result, 'Succeeded'),
         notin(stageDependencies.QA3_DEPLOYMENT.Qa3_Deploy.result, 'Succeeded'),
