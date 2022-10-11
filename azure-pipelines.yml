@@ -24,9 +24,9 @@ stages:
   dependsOn: BUILD_STAGE
   variables:
    name: var
-   value:
-      ${{ if eq('Succeeded', 'Succeeded') }}: True
-       echo $(var) 
+   ${{ if eq('Succeeded', 'Succeeded') }}: 
+    value: True
+     echo $(var) 
   jobs:
   - job: test_0C
     steps:
