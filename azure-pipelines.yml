@@ -24,13 +24,10 @@ stages:
   dependsOn: BUILD_STAGE
   variables:
   - name: var
-    value: True
-  #  value: $[in(Succeeded(BUILD_STAGE), 'True')]
-  #  ${{ if eq('Succeeded', 'Succeeded') }}: 
-    # ${{ if eq('Succeeded(BUILD_STAGE)', 'True') }}:
+    value: notin(stageDependencies.BUILD_STAGE.demo.result, 'Succeeded')
   jobs:
   - job: test_0C
-    condition: in(stageDependencies.BUILD_STAGE.demo.result, 'Succeeded')
+#    condition: in(stageDependencies.BUILD_STAGE.demo.result, 'Succeeded')
     steps:
      - task: Bash@3
        inputs:
