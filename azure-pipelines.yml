@@ -23,9 +23,8 @@ stages:
 - stage: RELEASE_C
   dependsOn: BUILD_STAGE
   variables:
-   name: var
    ${{ if eq('Succeeded', 'Succeeded') }}: 
-    value: True
+    var: True
      echo $(var) 
   jobs:
   - job: test_0C
@@ -40,7 +39,6 @@ stages:
           fi 
           echo $(var)
           echo "no exit :)"
-          echo $
 - stage: RELEASE_D
   jobs:
   - job: test_0D
