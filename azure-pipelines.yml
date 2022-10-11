@@ -38,6 +38,7 @@ stages:
           echo $(var)
           exit 1
           fi 
+          echo $(var)
           echo "no exit :)"
           echo $
 - stage: RELEASE_D
