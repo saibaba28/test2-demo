@@ -42,11 +42,11 @@ stages:
   variables:
   - name: var
     value: $[and ( 
-        notin(stageDependencies.QA1_DEPLOYMENT.Qa1_Deploy.result, 'Succeeded'),
-        notin(stageDependencies.QA2_DEPLOYMENT.Qa2_Deploy.result, 'Succeeded'),
-        notin(stageDependencies.QA3_DEPLOYMENT.Qa3_Deploy.result, 'Succeeded'),
-        notin(stageDependencies.QA4_DEPLOYMENT.Qa4_Deploy.result, 'Succeeded'),
-        notin(stageDependencies.QA5_DEPLOYMENT.Qa5_Deploy.result, 'Succeeded')
+        ne(stageDependencies.QA1_DEPLOYMENT.Qa1_Deploy.result, 'Succeeded'),
+        ne(stageDependencies.QA2_DEPLOYMENT.Qa2_Deploy.result, 'Succeeded'),
+        ne(stageDependencies.QA3_DEPLOYMENT.Qa3_Deploy.result, 'Succeeded'),
+        ne(stageDependencies.QA4_DEPLOYMENT.Qa4_Deploy.result, 'Succeeded'),
+        ne(stageDependencies.QA5_DEPLOYMENT.Qa5_Deploy.result, 'Succeeded')
         )]
   jobs:
   - deployment: deployProd
