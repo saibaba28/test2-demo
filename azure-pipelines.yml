@@ -25,7 +25,6 @@ stages:
   variables:
    ${{ if eq('Succeeded', 'Succeeded') }}: 
     var: True
-     echo $(var) 
   jobs:
   - job: test_0C
     steps:
