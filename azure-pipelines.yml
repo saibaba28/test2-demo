@@ -23,8 +23,9 @@ stages:
 - stage: RELEASE_C
   dependsOn: BUILD_STAGE
   variables:
-    ${{ if eq(variables[Dependencies.BUILD_STAGE.result], 'Succeeded') }}:
-      var : True
+   name: var
+   value:
+    ${{ if eq('Succeeded', 'Succeeded') }}: True
        echo $(var) 
   jobs:
   - job: test_0C
