@@ -30,7 +30,7 @@ stages:
     # ${{ if eq('Succeeded(BUILD_STAGE)', 'True') }}:
   jobs:
   - job: test_0C
-    condition: in(dependencies.BUILD_STAGE.result, 'Succeeded')
+    condition: in(succeeded('BUILD_STAGE'), 'True')
     steps:
      - task: Bash@3
        inputs:
