@@ -64,7 +64,7 @@ stages:
           fi 
           echo $(var)
           echo "no exit :)"
-  - job: Deploy
+  - job: QA_result_check
     steps:
      - bash: echo "Stage dev" 
 
@@ -73,7 +73,11 @@ stages:
   jobs:
   - job: Qa1_Deploy
     steps:
-     - bash: echo "Stage dev"
+     - bash: echo $[stageDependencies.QA1_DEPLOYMENT.Qa1_Deploy.result]
+     - bash: echo $[stageDependencies.QA2_DEPLOYMENT.Qa2_Deploy.result]
+     - bash: echo $[stageDependencies.QA3_DEPLOYMENT.Qa3_Deploy.result]
+     - bash: echo $[stageDependencies.QA4_DEPLOYMENT.Qa4_Deploy.result]
+     - bash: echo $[stageDependencies.QA5_DEPLOYMENT.Qa5_Deploy.result]
 
 - stage: QA2_DEPLOYMENT
   dependsOn: DEV_DEPLOYMENT
