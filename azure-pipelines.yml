@@ -22,9 +22,11 @@ stages:
       - bash: echo "Stage build"
 - stage: RELEASE_C
   dependsOn: BUILD_STAGE
+       echo 'Succeeded(BUILD_STAGE)'
   variables:
   - name: var
     value: $[eq('Succeeded(BUILD_STAGE)', 'Succeeded(BUILD_STAGE)')]
+     echo 'Succeeded(BUILD_STAGE)'
   #  ${{ if eq('Succeeded', 'Succeeded') }}: 
     # ${{ if eq('Succeeded(BUILD_STAGE)', 'True') }}:
   jobs:
