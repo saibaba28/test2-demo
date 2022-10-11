@@ -20,14 +20,39 @@ stages:
   - job: demo
     steps:
       - bash: echo "Stage build"
-- stage: RELEASE_C
+- stage: Scan_Code
   dependsOn: BUILD_STAGE
+  jobs:
+  - job: test_02
+    steps:
+     - bash: echo "Stage BD"  
+- stage: PUBLISH_ARTIFACT
+  jobs:
+  - job: Publish_Artifact
+    steps:
+     - bash: echo "Stage publish"  
+    
+- stage: DEV_DEPLOYMENT
+  jobs:
+  - job: Deploy
+    steps:
+     - bash: echo "Stage dev" 
+- stage: QA_SIGN_OFF
+  dependsOn: DEV_DEPLOYMENT
   variables:
   - name: var
-    value: $[in(stageDependencies.BUILD_STAGE.demo.result, 'Succeeded')]
+    value: $[or ( 
+        notin(stageDependencies.QA1_DEPLOYMENT.Qa1_Deploy.result, 'Succeeded'),
+        notin(stageDependencies.QA2_DEPLOYMENT.Qa2_Deploy.result, 'Succeeded'),
+        notin(stageDependencies.QA3_DEPLOYMENT.Qa3_Deploy.result, 'Succeeded'),
+        notin(stageDependencies.QA4_DEPLOYMENT.Qa4_Deploy.result, 'Succeeded'),
+        notin(stageDependencies.QA5_DEPLOYMENT.Qa5_Deploy.result, 'Succeeded')
+        )]
   jobs:
-  - job: test_0C
-#    condition: in(stageDependencies.BUILD_STAGE.demo.result, 'Succeeded')
+  - deployment: deployProd
+    displayName: QADeployment2
+    environment: OLB-QA
+  - job: QA_check
     steps:
      - task: Bash@3
        inputs:
@@ -39,14 +64,54 @@ stages:
           fi 
           echo $(var)
           echo "no exit :)"
-  - job: test_02
+  - job: Deploy
     steps:
-     - bash: echo "Stage BD"  
-- stage: RELEASE_D
+     - bash: echo "Stage dev" 
+
+- stage: QA1_DEPLOYMENT
+  dependsOn: DEV_DEPLOYMENT
   jobs:
-  - job: test_0D
+  - job: Qa1_Deploy
     steps:
-     - bash: echo "Stage D"  
-    
+     - bash: echo "Stage dev"
 
+- stage: QA2_DEPLOYMENT
+  dependsOn: DEV_DEPLOYMENT
+  jobs:
+  - job: Qa2_Deploy
+    steps:
+     - bash: echo "Stage dev"
 
+- stage: QA3_DEPLOYMENT
+  dependsOn: DEV_DEPLOYMENT
+  jobs:
+  - job: Qa3_Deploy
+    steps:
+     - bash: echo "Stage dev"
+
+- stage: QA4_DEPLOYMENT
+  dependsOn: DEV_DEPLOYMENT
+  jobs:
+  - job: Qa4_Deploy
+    steps:
+     - bash: echo "Stage dev"
+
+- stage: QA5_DEPLOYMENT
+  dependsOn: DEV_DEPLOYMENT
+  jobs:
+  - job: Qa5_Deploy
+    steps:
+     - bash: echo "Stage dev"
+
+- stage: PROD_DEPLOYMENT
+  dependsOn: QA_SIGN_OFF
+  jobs:
+  - job: Deploy
+    steps:
+     - bash: echo "Stage dev"
+
+- stage: SIGNED_OFF
+  jobs:
+  - job: Approve
+    steps:
+     - bash: echo "Stage dev"
