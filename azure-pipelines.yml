@@ -61,8 +61,8 @@ stages:
   variables:
   - name: var
     value: $[and ( 
-        ne(stageDependencies.QA1_DEPLOYMENT.Qa1_Deploy.result, 'Succeeded'),
-        ne(stageDependencies.QA2_DEPLOYMENT.Qa2_Deploy.result, 'Succeeded'),
+        ne(dependencies.QA1_DEPLOYMENT.result, 'Succeeded'),
+        ne(dependencies.QA2_DEPLOYMENT.result, 'Succeeded'),
         )]
   jobs:
   - deployment: deployProd
@@ -82,7 +82,7 @@ stages:
           echo "no exit :)"
   - job: QA_result_check
     steps:
-     - bash: echo $(stageDependencies.QA1_DEPLOYMENT.Qa1_Deploy.result)
+     - bash: echo $(dependencies.QA1_DEPLOYMENT.Qa1_Deploy.result)
     #  - bash: echo $[stageDependencies.QA2_DEPLOYMENT.Qa2_Deploy.result]
     #  - bash: echo $[stageDependencies.QA3_DEPLOYMENT.Qa3_Deploy.result]
     #  - bash: echo $[stageDependencies.QA4_DEPLOYMENT.Qa4_Deploy.result]
