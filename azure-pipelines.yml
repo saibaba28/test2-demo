@@ -37,32 +37,16 @@ stages:
   - job: Deploy
     steps:
      - bash: echo "Stage dev" 
-- stage: QA1_DEPLOYMENT
-  dependsOn: DEV_DEPLOYMENT
-  jobs:
-  - job: Qa1_Deploy
-    steps:
-    - bash: echo "Stage dev"
-
-- stage: QA2_DEPLOYMENT
-  dependsOn: DEV_DEPLOYMENT
-  jobs:
-  - job: Qa2_Deploy
-    steps:
-     - bash: echo "Stage dev"
-- stage: PROD_DEPLOYMENT
-  dependsOn: QA_SIGN_OFF
-  jobs:
-  - job: Deploy
-    steps:
-     - bash: echo "Stage dev"
 - stage: QA_SIGN_OFF
   dependsOn: DEV_DEPLOYMENT
   variables:
   - name: var
-    value: $[and ( 
-        ne(dependencies.QA1_DEPLOYMENT.result, 'Succeeded'),
-        ne(dependencies.QA2_DEPLOYMENT.result, 'Succeeded'),
+    value: $[or ( 
+        in(dependencies.QA1_DEPLOYMENT.result, 'Succeeded'),
+        in(dependencies.QA2_DEPLOYMENT.result, 'Succeeded'),
+        in(dependencies.QA3_DEPLOYMENT.result, 'Succeeded'),
+        in(dependencies.QA4_DEPLOYMENT.result, 'Succeeded'),
+        in(dependencies.QA5_DEPLOYMENT.result, 'Succeeded')
         )]
   jobs:
   - deployment: deployProd
@@ -80,9 +64,51 @@ stages:
           fi 
           echo $(var)
           echo "no exit :)"
-  - job: QA_result_check
+- stage: QA1_DEPLOYMENT
+  dependsOn: DEV_DEPLOYMENT
+  jobs:
+  - job: Qa1_Deploy
     steps:
-     - bash: echo $(dependencies.QA1_DEPLOYMENT.result)
+    - bash: echo "Stage dev"
+
+- stage: QA2_DEPLOYMENT
+  dependsOn: DEV_DEPLOYMENT
+  jobs:
+  - job: Qa2_Deploy
+    steps:
+     - bash: echo "Stage dev"
+
+- stage: QA3_DEPLOYMENT
+  dependsOn: DEV_DEPLOYMENT
+  jobs:
+  - job: Qa3_Deploy
+    steps:
+     - bash: echo "Stage dev"
+
+- stage: QA4_DEPLOYMENT
+  dependsOn: DEV_DEPLOYMENT
+  jobs:
+  - job: Qa4_Deploy
+    steps:
+     - bash: echo "Stage dev"
+
+- stage: QA5_DEPLOYMENT
+  dependsOn: DEV_DEPLOYMENT
+  jobs:
+  - job: Qa5_Deploy
+    steps:
+     - bash: echo "Stage dev"
+
+- stage: PROD_DEPLOYMENT
+  dependsOn: QA_SIGN_OFF
+  jobs:
+  - job: Deploy
+    steps:
+     - bash: echo "Stage dev"
+
+  # - job: QA_result_check
+  #   steps:
+  #    - bash: echo $(dependencies.QA1_DEPLOYMENT.result)
     #  - bash: echo $[stageDependencies.QA2_DEPLOYMENT.Qa2_Deploy.result]
     #  - bash: echo $[stageDependencies.QA3_DEPLOYMENT.Qa3_Deploy.result]
     #  - bash: echo $[stageDependencies.QA4_DEPLOYMENT.Qa4_Deploy.result]
