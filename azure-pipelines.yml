@@ -42,8 +42,8 @@ stages:
   variables:
   - name: var
     value: $[or ( 
-        in(stageDependencies.QA1_DEPLOYMENT.Deploy.result, 'Succeeded'),
-        in(stageDependencies.QA2_DEPLOYMENT.Deploy.result, 'Succeeded')
+        in(dependencies.QA1_DEPLOYMENT.Deploy.result, 'Succeeded'),
+        in(dependencies.QA2_DEPLOYMENT.Deploy.result, 'Succeeded')
         )]
   jobs:
   - deployment: deployProd
@@ -61,7 +61,7 @@ stages:
           fi 
           echo $(var)
           echo "no exit :)"
-     - bash: echo $[stageDependencies.QA2_DEPLOYMENT.Deploy.result]
+#     - bash: echo $[stageDependencies.QA2_DEPLOYMENT.Deploy.result]
      - bash: echo $[dependencies.QA2_DEPLOYMENT.Deploy.result]
 - stage: QA1_DEPLOYMENT
   dependsOn: DEV_DEPLOYMENT
