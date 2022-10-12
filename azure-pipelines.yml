@@ -48,7 +48,7 @@ stages:
   - QA3_DEPLOYMENT
   variables:
   - name: var
-    value: $[or(in(Succeeded('QA1_DEPLOYMENT'), 'True'),in(Succeeded('QA2_DEPLOYMENT'), 'True'),in(Succeeded('QA3_DEPLOYMENT'), 'True'))]
+    value: or(in(Succeeded('QA1_DEPLOYMENT'), 'True'),in(Succeeded('QA2_DEPLOYMENT'), 'True'),in(Succeeded('QA3_DEPLOYMENT'), 'True'))
   jobs:
   - job: test_0C
 #    condition: in(stageDependencies.BUILD_STAGE.demo.result, 'Succeeded')
