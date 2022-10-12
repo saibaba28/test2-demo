@@ -40,7 +40,7 @@ stages:
     steps:
      - bash: echo "Stage dev"
 
-- stage: QA-SIGN-OFF
+- stage: QA_SIGN_OFF
   condition: always()
   dependsOn:
   - QA1_DEPLOYMENT
