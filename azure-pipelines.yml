@@ -20,17 +20,17 @@ stages:
   - job: demo
     steps:
       - bash: echo "Stage build"
-- stage: Scan_Code
-  dependsOn: BUILD_STAGE
-  jobs:
-  - job: test_02
-    steps:
-     - bash: echo "Stage BD"  
-- stage: PUBLISH_ARTIFACT
-  jobs:
-  - job: Publish_Artifact
-    steps:
-     - bash: echo "Stage publish"  
+# - stage: Scan_Code
+#   dependsOn: BUILD_STAGE
+#   jobs:
+#   - job: test_02
+#     steps:
+#      - bash: echo "Stage BD"  
+# - stage: PUBLISH_ARTIFACT
+#   jobs:
+#   - job: Publish_Artifact
+#     steps:
+#      - bash: echo "Stage publish"  
     
 - stage: DEV_DEPLOYMENT
   jobs:
@@ -61,8 +61,8 @@ stages:
           fi 
           echo $(var)
           echo "no exit :)"
-     - bash: echo $[stageDependencies.QA2_DEPLOYMENT.Qa2_Deploy.result]
-     - bash: echo $[dependencies.QA2_DEPLOYMENT.Qa2_Deploy.result]
+     - bash: echo $[stageDependencies.QA2_DEPLOYMENT.Deploy.result]
+     - bash: echo $[dependencies.QA2_DEPLOYMENT.Deploy.result]
 - stage: QA1_DEPLOYMENT
   dependsOn: DEV_DEPLOYMENT
   jobs:
