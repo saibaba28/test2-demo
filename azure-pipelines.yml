@@ -50,7 +50,11 @@ stages:
   jobs:
   - job: Publish_Artifact
     steps:
-     - bash: echo "Stage publish"  
+     - task: Bash@3
+       inputs:
+        targetType: 'inline'
+        script: | 
+          exit 1
 - stage: DEV_DEPLOYMENT2
   dependsOn: BUILD_STAGE
   jobs:
