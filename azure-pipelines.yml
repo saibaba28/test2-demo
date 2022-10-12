@@ -28,7 +28,6 @@ stages:
       - bash: echo "Stage scan"
 
 - stage: PUBLISH_ARTIFACT
-  dependsOn: BUILD_STAGE
   jobs:
   - job: Publish_Artifact
     steps:
