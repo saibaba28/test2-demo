@@ -61,9 +61,15 @@ stages:
           fi 
           echo $(var)
           echo "no exit :)"
-#     - bash: echo $[stageDependencies.QA2_DEPLOYMENT.Deploy.result]
-     - bash: echo $[stageDependencies.QA1_DEPLOYMENT.Qa1_Deploy.result]
-     - bash: echo $[dependencies.QA2_DEPLOYMENT.Qa2_Deploy.result]
+          echo $[stageDependencies.QA1_DEPLOYMENT.Qa1_Deploy.result]
+          echo $(stageDependencies.QA1_DEPLOYMENT.Qa1_Deploy.result)
+          echo $[dependencies.QA1_DEPLOYMENT.Qa1_Deploy.result]
+          echo $(dependencies.QA1_DEPLOYMENT.Qa1_Deploy.result)
+          echo $[dependencies.QA1_DEPLOYMENT.result]
+          echo $(dependencies.QA1_DEPLOYMENT.result)
+          echo $[dependencies.QA1_DEPLOYMENT.result]
+          echo $(dependencies.QA1_DEPLOYMENT.result)
+
 - stage: QA1_DEPLOYMENT
   dependsOn: DEV_DEPLOYMENT
   jobs:
