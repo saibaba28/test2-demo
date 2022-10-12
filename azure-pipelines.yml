@@ -24,9 +24,10 @@ stages:
   dependsOn:
   - BUILD_STAGE
   - PUBLISH_ARTIFACT
+  - DEV_DEPLOYMENT2
   variables:
   - name: var
-    value: $[in(stageDependencies.PUBLISH_ARTIFACT.Publish_Artifact.result, 'Succeeded')]
+    value: $[or(in(stageDependencies.PUBLISH_ARTIFACT.Publish_Artifact.result, 'Succeeded'),(stageDependencies.DEV_DEPLOYMENT2.DEV_DEPLOYMENT2.result, 'Deploy2')]
   jobs:
   - job: test_0C
 #    condition: in(stageDependencies.BUILD_STAGE.demo.result, 'Succeeded')
@@ -57,6 +58,7 @@ stages:
     steps:
      - bash: echo "Stage dev"     
 - stage: DEV_DEPLOYMENT
+  dependsOn: Scan_Code
   jobs:
   - job: Deploy
     steps:
