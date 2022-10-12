@@ -39,11 +39,15 @@ stages:
      - bash: echo "Stage dev" 
 - stage: QA_SIGN_OFF
   dependsOn: DEV_DEPLOYMENT
+  #        in(stageDependencies.QA1_DEPLOYMENT.Qa1_Deploy.result, 'Succeeded'),
+#        in(StageDependencies.QA2_DEPLOYMENT.Qa2_Deploy.result, 'Succeeded')
+  echo succeeded('QA1_DEPLOYMENT')
+  echo $succeeded('QA1_DEPLOYMENT')
   variables:
   - name: var
     value: $[or ( 
-        in(stageDependencies.QA1_DEPLOYMENT.Qa1_Deploy.result, 'Succeeded'),
-        in(StageDependencies.QA2_DEPLOYMENT.Qa2_Deploy.result, 'Succeeded')
+        in(succeeded('QA1_DEPLOYMENT'), 'True'),
+        in(succeeded('QA2_DEPLOYMENT'), 'True')
         )]
   jobs:
   - deployment: deployProd
@@ -69,7 +73,6 @@ stages:
           echo $(dependencies.QA1_DEPLOYMENT.result)
           echo $[dependencies.QA1_DEPLOYMENT.result]
           echo $(dependencies.QA1_DEPLOYMENT.result)
-
 - stage: QA1_DEPLOYMENT
   dependsOn: DEV_DEPLOYMENT
   jobs:
