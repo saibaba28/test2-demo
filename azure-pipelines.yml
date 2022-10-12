@@ -20,6 +20,19 @@ stages:
   - job: demo
     steps:
       - bash: echo "Stage build"
+ 
+- stage: PUBLISH_ARTIFACT
+  dependsOn: BUILD_STAGE
+  jobs:
+  - job: Publish_Artifact
+    steps:
+     - bash: echo "Publish_Artifact BD"   
+- stage: DEV_DEPLOYMENT2
+  dependsOn: BUILD_STAGE
+  jobs:
+  - job: Deploy2
+    steps:
+     - bash: echo "Stage dev"    
 - stage: Scan_Code
   dependsOn:
   - BUILD_STAGE
@@ -43,18 +56,6 @@ stages:
   - job: test_02
     steps:
      - bash: echo "Stage BD"    
-- stage: PUBLISH_ARTIFACT
-  dependsOn: BUILD_STAGE
-  jobs:
-  - job: Publish_Artifact
-    steps:
-     - bash: echo "Publish_Artifact BD"   
-- stage: DEV_DEPLOYMENT2
-  dependsOn: BUILD_STAGE
-  jobs:
-  - job: Deploy2
-    steps:
-     - bash: echo "Stage dev"     
 - stage: DEV_DEPLOYMENT
   dependsOn: Scan_Code
   jobs:
