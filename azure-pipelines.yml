@@ -43,10 +43,7 @@ stages:
 #        in(StageDependencies.QA2_DEPLOYMENT.Qa2_Deploy.result, 'Succeeded')
   variables:
   - name: var
-    value: $[or ( 
-        in(succeeded(QA1_DEPLOYMENT), 'True'),
-        in(succeeded(QA2_DEPLOYMENT), 'True')
-        )]
+    value: $[stageDependencies.QA1_DEPLOYMENT.Qa1_Deploy.result]
   jobs:
   - deployment: deployProd
     displayName: QADeployment2
