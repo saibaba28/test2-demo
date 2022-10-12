@@ -22,8 +22,8 @@ stages:
       - bash: echo "Stage build"
 - stage: Scan_Code
   dependsOn:
+  - BUILD_STAGE
   - PUBLISH_ARTIFACT
-  - DEV_DEPLOYMENT2
   variables:
   - name: var
     value: $[in(stageDependencies.PUBLISH_ARTIFACT.Publish_Artifact.result, 'Succeeded')]
