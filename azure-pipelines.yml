@@ -90,11 +90,11 @@ stages:
      - bash: echo "Stage dev"
 
 - stage: PROD_DEPLOYMENT
-  dependsOn: QA-SIGN-OFF
-  condition: succeeded('QA-SIGN-OFF')
+  dependsOn: QA_SIGN_OFF
+  condition: succeeded('QA_SIGN_OFF')
 
   jobs:
-  - job: Deploy-test
+  - job: test4
     steps:
      - bash: echo "Stage prod"
 
