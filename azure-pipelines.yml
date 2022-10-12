@@ -53,6 +53,7 @@ stages:
     displayName: QADeployment2
     environment: OLB-QA
   - job: QA_check
+    pool: server
     steps:
      - task: Bash@3
        inputs:
