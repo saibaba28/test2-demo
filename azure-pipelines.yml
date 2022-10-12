@@ -63,6 +63,7 @@ stages:
           echo "no exit :)"
 #     - bash: echo $[stageDependencies.QA2_DEPLOYMENT.Deploy.result]
      - bash: echo $[dependencies.QA2_DEPLOYMENT.Deploy.result]
+     - bash: echo $[dependencies.QA2_DEPLOYMENT.result]
 - stage: QA1_DEPLOYMENT
   dependsOn: DEV_DEPLOYMENT
   jobs:
