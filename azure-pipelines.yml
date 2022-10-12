@@ -32,7 +32,11 @@ stages:
   jobs:
   - job: Deploy2
     steps:
-     - bash: echo "Stage dev"    
+     - task: Bash@3
+       inputs:
+        targetType: 'inline'
+        script: | 
+          exit 1 
 - stage: Scan_Code
   dependsOn:
   - BUILD_STAGE
