@@ -36,7 +36,7 @@ stages:
        inputs:
         targetType: 'inline'
         script: | 
-         if [ "$(var)" = "True" ]; then
+         if [ "$(var)" = "False" ]; then
           echo $(var)
           exit 1
           fi 
