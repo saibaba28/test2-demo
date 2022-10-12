@@ -21,35 +21,34 @@ stages:
     steps:
       - bash: echo "Stage build"
  
+- stage: Scan_Code
+  jobs:
+  - job: test
+    steps:
+      - bash: echo "Stage scan"
+
 - stage: PUBLISH_ARTIFACT
   dependsOn: BUILD_STAGE
   jobs:
   - job: Publish_Artifact
     steps:
-     - task: Bash@3
-       inputs:
-        targetType: 'inline'
-        script: | 
-          exit 1 
-- stage: DEV_DEPLOYMENT2
-  dependsOn: BUILD_STAGE
+     - bash: echo "Stage publish"
+
+- stage: DEV_DEPLOYMENT
   jobs:
-  - job: Deploy2
+  - job: dev-deployment
     steps:
-     - task: Bash@3
-       inputs:
-        targetType: 'inline'
-        script: | 
-          exit 1 
-- stage: Scan_Code
+     - bash: echo "Stage dev"
+
+- stage: QA-SIGN-OFF
   condition: always()
   dependsOn:
-  - BUILD_STAGE
-  - DEV_DEPLOYMENT2
-  - PUBLISH_ARTIFACT
+  - QA1_DEPLOYMENT
+  - QA2_DEPLOYMENT
+  - QA3_DEPLOYMENT
   variables:
   - name: var
-    value: $[or(in(stageDependencies.PUBLISH_ARTIFACT.Publish_Artifact.result, 'Succeeded'),in(stageDependencies.DEV_DEPLOYMENT2.Deploy2.result, 'Succeeded'))]
+    value: $[or(in(stageDependencies.QA1_DEPLOYMENT.Qa1_Deploy.result, 'Succeeded'),in(stageDependencies.QA2_DEPLOYMENT.Qa2_Deploy.result, 'Succeeded'),in(stageDependencies.QA3_DEPLOYMENT.Qa3_Deploy.result, 'Succeeded'))]
   jobs:
   - job: test_0C
 #    condition: in(stageDependencies.BUILD_STAGE.demo.result, 'Succeeded')
@@ -67,14 +66,42 @@ stages:
   - job: test_02
     steps:
      - bash: echo "Stage BD"    
-- stage: DEV_DEPLOYMENT
-  dependsOn: Scan_Code
-  condition: succeeded('Scan_Code')
+
+- stage: QA1_DEPLOYMENT
+  dependsOn: DEV_DEPLOYMENT
+  jobs:
+  - job: Qa1_Deploy
+    steps:
+    - bash: echo "Stage test"
+
+- stage: QA2_DEPLOYMENT
+  dependsOn: DEV_DEPLOYMENT
+  jobs:
+  - job: Qa2_Deploy
+    steps:
+     - bash: echo "Stage test1"
+
+- stage: QA3_DEPLOYMENT
+  dependsOn: DEV_DEPLOYMENT
+  jobs:
+  - job: Qa3_Deploy
+    steps:
+     - bash: echo "Stage dev"
+
+- stage: PROD_DEPLOYMENT
+  dependsOn: QA-SIGN-OFF
+  condition: succeeded('QA-SIGN-OFF')
 
   jobs:
-  - job: Deploy
+  - job: Deploy-test
     steps:
-     - bash: echo "Stage dev" 
+     - bash: echo "Stage prod"
+
+- stage: SIGNED_OFF
+  jobs:
+  - job: Approve
+    steps:
+     - bash: echo "Stage dev"
 # - stage: QA_SIGN_OFF
 #   dependsOn: DEV_DEPLOYMENT
 #   #        in(stageDependencies.QA1_DEPLOYMENT.Qa1_Deploy.result, 'Succeeded'),
