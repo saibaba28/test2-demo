@@ -23,8 +23,6 @@ stages:
 - stage: Scan_Code
   dependsOn:
   - BUILD_STAGE
-  - PUBLISH_ARTIFACT
-  - DEV_DEPLOYMENT2
   variables:
   - name: var
     value: $[or(in(stageDependencies.PUBLISH_ARTIFACT.Publish_Artifact.result, 'Succeeded'),in(stageDependencies.DEV_DEPLOYMENT2.Deploy2.result, 'Succeeded'))]
@@ -50,11 +48,7 @@ stages:
   jobs:
   - job: Publish_Artifact
     steps:
-     - task: Bash@3
-       inputs:
-        targetType: 'inline'
-        script: | 
-          exit 1
+     - bash: echo "Publish_Artifact BD"   
 - stage: DEV_DEPLOYMENT2
   dependsOn: BUILD_STAGE
   jobs:
