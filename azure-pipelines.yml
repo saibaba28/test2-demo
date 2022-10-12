@@ -38,6 +38,7 @@ stages:
         script: | 
           exit 1 
 - stage: Scan_Code
+  condition: always()
   dependsOn:
   - BUILD_STAGE
   - DEV_DEPLOYMENT2
