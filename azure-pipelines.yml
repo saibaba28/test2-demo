@@ -25,7 +25,7 @@ stages:
   - BUILD_STAGE
   variables:
   - name: var
-    value: $[or(in(stageDependencies.PUBLISH_ARTIFACT.Publish_Artifact.result, 'Succeeded'),in(stageDependencies.DEV_DEPLOYMENT2.Deploy2.result, 'Succeeded'))]
+    value: $[or(in(succeeded('PUBLISH_ARTIFACT'), 'True'),in(succeeded('DEV_DEPLOYMENT2'), 'True'))]
   jobs:
   - job: test_0C
 #    condition: in(stageDependencies.BUILD_STAGE.demo.result, 'Succeeded')
