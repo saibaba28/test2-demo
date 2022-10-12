@@ -40,7 +40,7 @@ stages:
      - bash: echo "Stage dev"
 
 - stage: QA_SIGN_OFF
-  condition: always()
+  condition: succeededOrFailed()
   dependsOn:
   - DEV_DEPLOYMENT
   - QA1_DEPLOYMENT
@@ -48,7 +48,7 @@ stages:
   - QA3_DEPLOYMENT
   variables:
   - name: var
-    value: $[or(in(dependencies.QA1_DEPLOYMENT.result, 'Succeeded'),in(dependencies.QA2_DEPLOYMENT.result, 'Succeeded'),in(dependencies.QA3_DEPLOYMENT.result, 'Succeeded'))]
+    value: $[or(in(Succeeded('QA1_DEPLOYMENT'), 'True'),in(Succeeded('QA2_DEPLOYMENT'), 'True'),in(Succeeded('QA3_DEPLOYMENT'), 'True'))]
   jobs:
   - job: test_0C
 #    condition: in(stageDependencies.BUILD_STAGE.demo.result, 'Succeeded')
