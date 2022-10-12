@@ -64,6 +64,7 @@ stages:
     steps:
      - bash: echo "Stage BD"    
 - stage: DEV_DEPLOYMENT
+  condition: succeeded()
   dependsOn: Scan_Code
   jobs:
   - job: Deploy
