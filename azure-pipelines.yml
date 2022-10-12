@@ -42,7 +42,6 @@ stages:
   #        in(stageDependencies.QA1_DEPLOYMENT.Qa1_Deploy.result, 'Succeeded'),
 #        in(StageDependencies.QA2_DEPLOYMENT.Qa2_Deploy.result, 'Succeeded')
   echo succeeded('QA1_DEPLOYMENT')
-  echo $succeeded('QA1_DEPLOYMENT')
   variables:
   - name: var
     value: $[or ( 
