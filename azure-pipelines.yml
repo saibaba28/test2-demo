@@ -43,6 +43,7 @@ stages:
 - stage: QA_SIGN_OFF
   condition: always()
   dependsOn:
+  - DEV_DEPLOYMENT
   - QA1_DEPLOYMENT
   - QA2_DEPLOYMENT
   - QA3_DEPLOYMENT
