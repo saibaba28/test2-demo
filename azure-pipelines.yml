@@ -20,35 +20,14 @@ stages:
   - job: demo
     steps:
       - bash: echo "Stage build"
-# - stage: Scan_Code
-#   dependsOn: BUILD_STAGE
-#   jobs:
-#   - job: test_02
-#     steps:
-#      - bash: echo "Stage BD"  
-# - stage: PUBLISH_ARTIFACT
-#   jobs:
-#   - job: Publish_Artifact
-#     steps:
-#      - bash: echo "Stage publish"  
-    
-- stage: DEV_DEPLOYMENT
-  jobs:
-  - job: Deploy
-    steps:
-     - bash: echo "Stage dev" 
-- stage: QA_SIGN_OFF
-  dependsOn: DEV_DEPLOYMENT
-  #        in(stageDependencies.QA1_DEPLOYMENT.Qa1_Deploy.result, 'Succeeded'),
-#        in(StageDependencies.QA2_DEPLOYMENT.Qa2_Deploy.result, 'Succeeded')
+- stage: Scan_Code
+  dependsOn: BUILD_STAGE
   variables:
   - name: var
-    value: $[stageDependencies.QA1_DEPLOYMENT.Qa1_Deploy.result]
+    value: $[or(in(stageDependencies.PUBLISH_ARTIFACT.Publish_Artifact.result, 'Succeeded'), in(stageDependencies.DEV_DEPLOYMENT2.Deploy2.result, 'Succeeded'))]
   jobs:
-  - deployment: deployProd
-    displayName: QADeployment2
-    environment: OLB-QA
-  - job: QA_check
+  - job: test_0C
+#    condition: in(stageDependencies.BUILD_STAGE.demo.result, 'Succeeded')
     steps:
      - task: Bash@3
        inputs:
@@ -60,65 +39,108 @@ stages:
           fi 
           echo $(var)
           echo "no exit :)"
-          echo $[stageDependencies.QA1_DEPLOYMENT.Qa1_Deploy.result]
-          echo $(stageDependencies.QA1_DEPLOYMENT.Qa1_Deploy.result)
-          echo $[dependencies.QA1_DEPLOYMENT.Qa1_Deploy.result]
-          echo $(dependencies.QA1_DEPLOYMENT.Qa1_Deploy.result)
-          echo $[dependencies.QA1_DEPLOYMENT.result]
-          echo $(dependencies.QA1_DEPLOYMENT.result)
-          echo $[dependencies.QA1_DEPLOYMENT.result]
-          echo $(dependencies.QA1_DEPLOYMENT.result)
-- stage: QA1_DEPLOYMENT
-  dependsOn: DEV_DEPLOYMENT
-  jobs:
-  - job: Qa1_Deploy
+  - job: test_02
     steps:
-    - bash: echo "Stage test"
-
-- stage: QA2_DEPLOYMENT
-  dependsOn: DEV_DEPLOYMENT
+     - bash: echo "Stage BD"    
+- stage: PUBLISH_ARTIFACT
+  dependsOn: BUILD_STAGE
   jobs:
-  - job: Qa2_Deploy
+  - job: Publish_Artifact
     steps:
-     - bash: echo "Stage test1"
-
-# - stage: QA3_DEPLOYMENT
-#   dependsOn: DEV_DEPLOYMENT
-#   jobs:
-#   - job: Qa3_Deploy
-#     steps:
-#      - bash: echo "Stage dev"
-
-# - stage: QA4_DEPLOYMENT
-#   dependsOn: DEV_DEPLOYMENT
-#   jobs:
-#   - job: Qa4_Deploy
-#     steps:
-#      - bash: echo "Stage dev"
-
-# - stage: QA5_DEPLOYMENT
-#   dependsOn: DEV_DEPLOYMENT
-#   jobs:
-#   - job: Qa5_Deploy
-#     steps:
-#      - bash: echo "Stage dev"
-
-- stage: PROD_DEPLOYMENT
-  dependsOn: QA_SIGN_OFF
+     - bash: echo "Stage publish"  
+- stage: DEV_DEPLOYMENT2
+  dependsOn: BUILD_STAGE
+  jobs:
+  - job: Deploy2
+    steps:
+     - bash: echo "Stage dev"     
+- stage: DEV_DEPLOYMENT
   jobs:
   - job: Deploy
     steps:
-     - bash: echo "Stage dev"
+     - bash: echo "Stage dev" 
+# - stage: QA_SIGN_OFF
+#   dependsOn: DEV_DEPLOYMENT
+#   #        in(stageDependencies.QA1_DEPLOYMENT.Qa1_Deploy.result, 'Succeeded'),
+# #        in(StageDependencies.QA2_DEPLOYMENT.Qa2_Deploy.result, 'Succeeded')
+#   variables:
+#   - name: var
+#     value: $[stageDependencies.QA1_DEPLOYMENT.Qa1_Deploy.result]
+#   jobs:
+#   - deployment: deployProd
+#     displayName: QADeployment2
+#     environment: OLB-QA
+#   - job: QA_check
+#     steps:
+#      - task: Bash@3
+#        inputs:
+#         targetType: 'inline'
+#         script: | 
+#          if [ "$(var)" = "True" ]; then
+#           echo $(var)
+#           exit 1
+#           fi 
+#           echo $(var)
+#           echo "no exit :)"
+#           echo $[stageDependencies.QA1_DEPLOYMENT.Qa1_Deploy.result]
+#           echo $(stageDependencies.QA1_DEPLOYMENT.Qa1_Deploy.result)
+#           echo $[dependencies.QA1_DEPLOYMENT.Qa1_Deploy.result]
+#           echo $(dependencies.QA1_DEPLOYMENT.Qa1_Deploy.result)
+#           echo $[dependencies.QA1_DEPLOYMENT.result]
+#           echo $(dependencies.QA1_DEPLOYMENT.result)
+#           echo $[dependencies.QA1_DEPLOYMENT.result]
+#           echo $(dependencies.QA1_DEPLOYMENT.result)
+# - stage: QA1_DEPLOYMENT
+#   dependsOn: DEV_DEPLOYMENT
+#   jobs:
+#   - job: Qa1_Deploy
+#     steps:
+#     - bash: echo "Stage test"
 
-  # - job: QA_result_check
-  #   steps:
-  #    - bash: echo $(dependencies.QA1_DEPLOYMENT.result)
-    #  - bash: echo $[stageDependencies.QA2_DEPLOYMENT.Qa2_Deploy.result]
-    #  - bash: echo $[stageDependencies.QA3_DEPLOYMENT.Qa3_Deploy.result]
-    #  - bash: echo $[stageDependencies.QA4_DEPLOYMENT.Qa4_Deploy.result]
-    #  - bash: echo $[stageDependencies.QA5_DEPLOYMENT.Qa5_Deploy.result]
-- stage: SIGNED_OFF
-  jobs:
-  - job: Approve
-    steps:
-     - bash: echo "Stage dev"
+# - stage: QA2_DEPLOYMENT
+#   dependsOn: DEV_DEPLOYMENT
+#   jobs:
+#   - job: Qa2_Deploy
+#     steps:
+#      - bash: echo "Stage test1"
+
+# # - stage: QA3_DEPLOYMENT
+# #   dependsOn: DEV_DEPLOYMENT
+# #   jobs:
+# #   - job: Qa3_Deploy
+# #     steps:
+# #      - bash: echo "Stage dev"
+
+# # - stage: QA4_DEPLOYMENT
+# #   dependsOn: DEV_DEPLOYMENT
+# #   jobs:
+# #   - job: Qa4_Deploy
+# #     steps:
+# #      - bash: echo "Stage dev"
+
+# # - stage: QA5_DEPLOYMENT
+# #   dependsOn: DEV_DEPLOYMENT
+# #   jobs:
+# #   - job: Qa5_Deploy
+# #     steps:
+# #      - bash: echo "Stage dev"
+
+# - stage: PROD_DEPLOYMENT
+#   dependsOn: QA_SIGN_OFF
+#   jobs:
+#   - job: Deploy
+#     steps:
+#      - bash: echo "Stage dev"
+
+#   # - job: QA_result_check
+#   #   steps:
+#   #    - bash: echo $(dependencies.QA1_DEPLOYMENT.result)
+#     #  - bash: echo $[stageDependencies.QA2_DEPLOYMENT.Qa2_Deploy.result]
+#     #  - bash: echo $[stageDependencies.QA3_DEPLOYMENT.Qa3_Deploy.result]
+#     #  - bash: echo $[stageDependencies.QA4_DEPLOYMENT.Qa4_Deploy.result]
+#     #  - bash: echo $[stageDependencies.QA5_DEPLOYMENT.Qa5_Deploy.result]
+# - stage: SIGNED_OFF
+#   jobs:
+#   - job: Approve
+#     steps:
+#      - bash: echo "Stage dev"
