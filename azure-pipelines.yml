@@ -70,23 +70,38 @@ stages:
 - stage: QA1_DEPLOYMENT
   dependsOn: DEV_DEPLOYMENT
   jobs:
-  - job: Qa1_Deploy
-    steps:
-    - bash: echo "Stage test"
+  - deployment: deployQA
+    displayName: QADeployemnt1
+    environment: OLB-QA
+    strategy:
+     runOnce:
+       deploy: 
+        steps:
+         - bash: echo "Stage QA1"
 
 - stage: QA2_DEPLOYMENT
   dependsOn: DEV_DEPLOYMENT
   jobs:
-  - job: Qa2_Deploy
-    steps:
-     - bash: echo "Stage test1"
+   - deployment: deployQA
+     displayName: QADeployemnt2
+     environment: OLB-QA
+     strategy:
+      runOnce:
+       deploy: 
+        steps:
+         - bash: echo "Stage QA2"
 
 - stage: QA3_DEPLOYMENT
   dependsOn: DEV_DEPLOYMENT
   jobs:
-  - job: Qa3_Deploy
-    steps:
-     - bash: echo "Stage dev"
+  - deployment: deployQA
+    displayName: QADeployemnt3
+    environment: OLB-QA
+    strategy:
+      runOnce:
+       deploy: 
+        steps:
+         - bash: echo "Stage QA3"
 
 - stage: PROD_DEPLOYMENT
   dependsOn: QA_SIGN_OFF
