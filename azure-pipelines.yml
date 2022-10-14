@@ -94,7 +94,11 @@ stages:
       runOnce:
        deploy: 
         steps:
-         - bash: echo "Stage QA2"
+          - task: Bash@3
+            inputs:
+             targetType: 'inline'
+             script: |
+                  exit 1
 
 - stage: QA3_DEPLOYMENT
   dependsOn: DEV_DEPLOYMENT
