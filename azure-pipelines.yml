@@ -122,6 +122,8 @@ stages:
      - bash: echo "Stage prod"
 
 - stage: SIGNED_OFF
+  dependsOn: PROD_DEPLOYMENT
+  condition: succeeded('PROD_DEPLOYMENT')
   jobs:
   - job: Approve
     steps:
