@@ -1,19 +1,35 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
-
-trigger:
-- master
-
-pool:
-  vmImage: ubuntu-latest
-
-steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
-
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+parameters:
+- name: target_location
+  type: string
+  default: "."
+  
+- name: environment
+  type: string
+  default: "."
+  
+- name: depends_on
+  type: object
+  default: []
+  
+- name: stage_name
+  type: string
+  default: "."
+  
+- name: job_name
+  type: string
+  default: "."
+  
+stages:
+- stage: ${{ parameters.stage_name }}
+  dependsOn: ${{ parameters.depends_on }}
+  condition: succeededOrFailed()
+  variables:
+   - name: var
+     value: $[or(
+         in(stageDependencies.${{ parameters.depends_on[1] }}.${{ parameters.job_name }}.result, 'Succeeded'),
+         in(stageDependencies.${{ parameters.depends_on[2] }}.${{ parameters.job_name }}.result, 'Succeeded'),
+         in(stageDependencies.${{ parameters.depends_on[3] }}.${{ parameters.job_name }}.result, 'Succeeded')
+         )]
+  jobs:
+  - deployment: deployProd
+  
