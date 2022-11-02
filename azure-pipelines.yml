@@ -48,7 +48,9 @@ stages:
   - QA3_DEPLOYMENT
   variables:
   - name: var
-    value: $[or(in(stageDependencies.QA1_DEPLOYMENT.deployQA.result, 'Succeeded'),in(stageDependencies.QA2_DEPLOYMENT.deployQA.result, 'Succeeded'),in(stageDependencies.QA3_DEPLOYMENT.deployQA.result, 'Succeeded'))]
+    value: $[or(in(stageDependencies.QA1_DEPLOYMENT.deployQA.result, 'Succeeded'),
+                in(stageDependencies.QA2_DEPLOYMENT.deployQA.result, 'Succeeded'),
+                in(stageDependencies.QA3_DEPLOYMENT.deployQA.result, 'Succeeded'))]
   jobs:
   - job: test_0C
 #    condition: in(stageDependencies.BUILD_STAGE.demo.result, 'Succeeded')
