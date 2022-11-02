@@ -83,7 +83,7 @@ stages:
            inputs:
              targetType: 'inline'
              script: |
-                  exit 1
+                  hello
              
 
 - stage: QA2_DEPLOYMENT
@@ -100,7 +100,7 @@ stages:
             inputs:
              targetType: 'inline'
              script: |
-                  exit 1
+                  hello
 
 - stage: QA3_DEPLOYMENT
   dependsOn: DEV_DEPLOYMENT
@@ -116,7 +116,7 @@ stages:
            inputs:
              targetType: 'inline'
              script: |
-                 exit 1
+                 hello
 
 - stage: PROD_DEPLOYMENT
   dependsOn: QA_SIGN_OFF
