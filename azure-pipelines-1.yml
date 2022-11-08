@@ -31,5 +31,22 @@ stages:
          in(stageDependencies.${{ parameters.depends_on[3] }}.${{ parameters.job_name }}.result, 'Succeeded')
          )]
   jobs:
-  - deployment: deployProd
+  - deployment: ${{ parameters.job_name }}
+    displayName: ${{ parameters.stage_name }}
+    environment: ${{ parameters.environment }}
+  - job: QA_check
+     steps:
+      - task: Bash@3
+        inputs:
+         targetType: 'inline'
+         script: | 
+          if [ "$(var)" = "False" ]; then
+           echo $(var)
+           exit 1
+           fi 
+           echo $(var)
+           echo "no exit :)"
+   - job: test_02
+     steps:
+     - bash: echo "Stage BD"  
   
