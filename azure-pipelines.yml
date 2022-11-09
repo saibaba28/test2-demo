@@ -46,7 +46,7 @@ stages:
   - QA1_DEPLOYMENT
   variables:
   - name: var
-    value: $[(stageDependencies.QA1_DEPLOYMENT.deployQA.result)]
+    value: $(stageDependencies.QA1_DEPLOYMENT.deployQA.result)
     
       #or(in(stageDependencies.QA1_DEPLOYMENT.deployQA.result, 'Succeeded'),in(stageDependencies.QA2_DEPLOYMENT.deployQA.result, 'Succeeded'),in(stageDependencies.QA3_DEPLOYMENT.deployQA.result, 'Succeeded'))]
   jobs:
@@ -57,12 +57,13 @@ stages:
        inputs:
         targetType: 'inline'
         script: | 
-         if [ "$(var)" = "True" ]; then
-          echo $(var)
-          exit 1
-          fi 
-          echo $(var)
-          echo "no exit :)"
+           echo $(var)
+        #  if [ "$(var)" = "True" ]; then
+        #   echo $(var)
+        #   exit 1
+        #   fi 
+        #   echo $(var)
+        #   echo "no exit :)"
           
 - stage: QA1_DEPLOYMENT
   dependsOn: DEV_DEPLOYMENT
