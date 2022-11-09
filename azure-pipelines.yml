@@ -57,13 +57,12 @@ stages:
        inputs:
         targetType: 'inline'
         script: | 
-           echo $(var)
-        #  if [ "$(var)" = "True" ]; then
-        #   echo $(var)
-        #   exit 1
-        #   fi 
-        #   echo $(var)
-        #   echo "no exit :)"
+         if [ "$(var)" = "True" ]; then
+          echo $(var)
+          exit 1
+          fi 
+          echo $(var)
+          echo "no exit :)"
           
 - stage: QA1_DEPLOYMENT
   dependsOn: DEV_DEPLOYMENT
