@@ -63,10 +63,7 @@ stages:
           fi 
           echo $(var)
           echo "no exit :)"
-  - job: test_02
-    steps:
-     - bash: echo "Stage BD"    
-
+          
 - stage: QA1_DEPLOYMENT
   dependsOn: DEV_DEPLOYMENT
   jobs:
