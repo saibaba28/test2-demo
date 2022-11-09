@@ -46,7 +46,7 @@ stages:
   - QA1_DEPLOYMENT
   variables:
   - name: var
-    value: $[in(Succeeded('QA1_DEPLOYMENT'), 'True')]
+    value: $[in(Succeeded('QA1_DEPLOYMENT')]
     
       #or(in(stageDependencies.QA1_DEPLOYMENT.deployQA.result, 'Succeeded'),in(stageDependencies.QA2_DEPLOYMENT.deployQA.result, 'Succeeded'),in(stageDependencies.QA3_DEPLOYMENT.deployQA.result, 'Succeeded'))]
   jobs:
