@@ -21,17 +21,17 @@ stages:
     steps:
       - bash: echo "Stage build"
  
-- stage: Scan_Code
-  jobs:
-  - job: test
-    steps:
-      - bash: echo "Stage scan"
+# - stage: Scan_Code
+#   jobs:
+#   - job: test
+#     steps:
+#       - bash: echo "Stage scan"
 
-- stage: PUBLISH_ARTIFACT
-  jobs:
-  - job: Publish_Artifact
-    steps:
-     - bash: echo "Stage publish"
+# - stage: PUBLISH_ARTIFACT
+#   jobs:
+#   - job: Publish_Artifact
+#     steps:
+#      - bash: echo "Stage publish"
 
 - stage: DEV_DEPLOYMENT
   jobs:
