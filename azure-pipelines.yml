@@ -44,11 +44,10 @@ stages:
   dependsOn:
   - DEV_DEPLOYMENT
   - QA1_DEPLOYMENT
-  - QA2_DEPLOYMENT
-  - QA3_DEPLOYMENT
   variables:
   - name: var
-    value: $[or(in(stageDependencies.QA1_DEPLOYMENT.deployQA.result, 'Succeeded'),in(stageDependencies.QA2_DEPLOYMENT.deployQA.result, 'Succeeded'),in(stageDependencies.QA3_DEPLOYMENT.deployQA.result, 'Succeeded'))]
+    value: $[and(succeeded(), eq('QA1_DEPLOYMENT', 'true')
+      #or(in(stageDependencies.QA1_DEPLOYMENT.deployQA.result, 'Succeeded'),in(stageDependencies.QA2_DEPLOYMENT.deployQA.result, 'Succeeded'),in(stageDependencies.QA3_DEPLOYMENT.deployQA.result, 'Succeeded'))]
   jobs:
   - job: test_0C
 #    condition: in(stageDependencies.BUILD_STAGE.demo.result, 'Succeeded')
@@ -81,57 +80,57 @@ stages:
            inputs:
              targetType: 'inline'
              script: |
-                  exit 1
+                  echo "hello"
              
 
-- stage: QA2_DEPLOYMENT
-  dependsOn: DEV_DEPLOYMENT
-  jobs:
-   - deployment: deployQA
-     displayName: QADeployemnt2
-     environment: OLB-QA
-     strategy:
-      runOnce:
-       deploy: 
-        steps:
-          - task: Bash@3
-            inputs:
-             targetType: 'inline'
-             script: |
-                  exit 1
+# - stage: QA2_DEPLOYMENT
+#   dependsOn: DEV_DEPLOYMENT
+#   jobs:
+#    - deployment: deployQA
+#      displayName: QADeployemnt2
+#      environment: OLB-QA
+#      strategy:
+#       runOnce:
+#        deploy: 
+#         steps:
+#           - task: Bash@3
+#             inputs:
+#              targetType: 'inline'
+#              script: |
+#                   exit 1
 
-- stage: QA3_DEPLOYMENT
-  dependsOn: DEV_DEPLOYMENT
-  jobs:
-  - deployment: deployQA
-    displayName: QADeployemnt3
-    environment: OLB-QA
-    strategy:
-      runOnce:
-       deploy: 
-        steps:
-         - task: Bash@3
-           inputs:
-             targetType: 'inline'
-             script: |
-                 exit 1
+# - stage: QA3_DEPLOYMENT
+#   dependsOn: DEV_DEPLOYMENT
+#   jobs:
+#   - deployment: deployQA
+#     displayName: QADeployemnt3
+#     environment: OLB-QA
+#     strategy:
+#       runOnce:
+#        deploy: 
+#         steps:
+#          - task: Bash@3
+#            inputs:
+#              targetType: 'inline'
+#              script: |
+#                  exit 1
 
-- stage: PROD_DEPLOYMENT
-  dependsOn: QA_SIGN_OFF
-  condition: succeeded('QA_SIGN_OFF')
+# - stage: PROD_DEPLOYMENT
+#   dependsOn: QA_SIGN_OFF
+#   condition: succeeded('QA_SIGN_OFF')
 
-  jobs:
-  - job: test4
-    steps:
-     - bash: echo "Stage prod"
+#   jobs:
+#   - job: test4
+#     steps:
+#      - bash: echo "Stage prod"
 
-- stage: SIGNED_OFF
-  dependsOn: PROD_DEPLOYMENT
-  condition: succeeded('PROD_DEPLOYMENT')
-  jobs:
-  - job: Approve
-    steps:
-     - bash: echo "Stage dev"
+# - stage: SIGNED_OFF
+#   dependsOn: PROD_DEPLOYMENT
+#   condition: succeeded('PROD_DEPLOYMENT')
+#   jobs:
+#   - job: Approve
+#     steps:
+#      - bash: echo "Stage dev"
 # - stage: QA_SIGN_OFF
 #   dependsOn: DEV_DEPLOYMENT
 #   #        in(stageDependencies.QA1_DEPLOYMENT.Qa1_Deploy.result, 'Succeeded'),
