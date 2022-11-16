@@ -46,12 +46,11 @@ stages:
   - QA1_DEPLOYMENT
   variables:
   - name: var
-    value: $[eq(dependencies.deployQA.result, 'Succeeded')]
+    value: $[eq(variables['QA1_DEPLOYMENT'], 'true')
     
       #or(in(stageDependencies.QA1_DEPLOYMENT.deployQA.result, 'Succeeded'),in(stageDependencies.QA2_DEPLOYMENT.deployQA.result, 'Succeeded'),in(stageDependencies.QA3_DEPLOYMENT.deployQA.result, 'Succeeded'))]
   jobs:
   - job: test_0C
-#    condition: in(stageDependencies.BUILD_STAGE.demo.result, 'Succeeded')
     steps:
      - task: Bash@3
        inputs:
